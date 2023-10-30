@@ -9,7 +9,7 @@ def sentiment_analysis(text_path):
     sentiment_analysis_pipeline = pipeline(model="finiteautomata/bertweet-base-sentiment-analysis")
 
     # Split the text into sentences using periods as delimiters
-    sentences = text.split(".")
+    sentences = text.rsplit(".", maxsplit=1)
 
     # Initialize lists to store sentiment and confidence for each sentence
     sentence_sentiments = []
@@ -35,5 +35,3 @@ def sentiment_analysis(text_path):
         print(f"Sentiment: {sentence_sentiments[i]}")
         print(f"Confidence: {sentence_confidences[i]}")
         print("\n")
-
-sentiment_analysis("weather.txt")
