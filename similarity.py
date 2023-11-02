@@ -18,6 +18,7 @@ def similarity(text_file, options_file):
 
     max_similarity_score = -1  # Initialize with a low value
     most_similar_option = None
+    similar_options = []
 
     for i in range(1, len(options), 2):
         option = options[i]  # Get the option text
@@ -30,9 +31,22 @@ def similarity(text_file, options_file):
             max_similarity_score = similarity_score
             most_similar_option = option
 
-    if most_similar_option:
-        print("Your input: ",text_content)
+        if similarity_score < 0.5:
+            similar_options.append((option, similarity_score))
+
+    print("Your input: ", text_content)
+
+    if max_similarity_score >= 0.5:
         print(f"The most similar option to the text is: {most_similar_option}")
         print(f"Similarity Score: {max_similarity_score}")
     else:
         print("No similar option found.")
+
+    if max_similarity_score < 0.5:
+        for option, score in similar_options:
+            print(f"Option: {option} : {score}")
+
+try:
+    similarity("test1.txt", "text.txt")  # Replace with the correct file paths
+except ValueError as e:
+    print(f"Error: {e}")
