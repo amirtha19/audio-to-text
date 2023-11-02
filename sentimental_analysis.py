@@ -9,7 +9,7 @@ def sentiment_analysis(text_path):
     sentiment_analysis_pipeline = pipeline(model="finiteautomata/bertweet-base-sentiment-analysis")
 
     # Split the text into sentences using periods as delimiters
-    sentences = text.rsplit(".", maxsplit=1)
+    sentences = text.split('.')
 
     # Initialize lists to store sentiment and confidence for each sentence
     sentence_sentiments = []
@@ -17,21 +17,25 @@ def sentiment_analysis(text_path):
 
     # Predict the sentiment for each sentence
     for sentence in sentences:
-        # Predict the sentiment of the sentence
-        result = sentiment_analysis_pipeline(sentence)
+        # Remove leading and trailing spaces from the sentence
+        sentence = sentence.strip()
 
-        # Access the sentiment prediction
-        sentiment = result[0]["label"]
-        confidence = result[0]["score"]
+        if sentence:
+            # Predict the sentiment of the sentence
+            result = sentiment_analysis_pipeline(sentence)
 
-        # Append the sentiment and confidence to the lists
-        sentence_sentiments.append(sentiment)
-        sentence_confidences.append(confidence)
+            # Access the sentiment prediction
+            sentiment = result[0]["label"]
+            confidence = result[0]["score"]
+
+            # Append the sentiment and confidence to the lists
+            sentence_sentiments.append(sentiment)
+            sentence_confidences.append(confidence)
 
     # Print the sentiment and confidence for each sentence
-    for i, sentence in enumerate(sentences):
+    for i, sentence in enumerate(sentence_sentiments):
         print(f"Sentence {i + 1}:")
-        print(f"Text: {sentence}")
+        print(f"Text: {sentences[i]}")
         print(f"Sentiment: {sentence_sentiments[i]}")
         print(f"Confidence: {sentence_confidences[i]}")
         print("\n")
